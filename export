@@ -1,0 +1,24 @@
+#include "stdafx.h"
+#include "stdlib.h"
+#include "stdio.h"
+using namespace std;
+
+
+
+int main()
+{
+	FILE * fp;
+	char * a;
+	int len = 0;
+	if ((fp = fopen("d:\\export.gpx", "r")) == 0)
+	{
+		printf("文件不能正常打开！！ ");
+		return(-1);
+	}
+	fseek(fp, 0, SEEK_END);
+	len = ftell(fp);
+	a = (char *)malloc(len);
+	printf("len=%d", len);
+	fclose(fp);
+	return 0;
+}
