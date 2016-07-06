@@ -1,0 +1,23 @@
+#include<stdio.h>
+#include<malloc.h>
+int main()
+{
+	FILE *fp;
+	int flen = 0;
+	char *str;
+	printf("str len = %d",sizeof(str));
+	if((fp = fopen("f:\\chengxusheji\\export.gpx","r")) == 0)
+	{
+		printf("打开文件失败！\n");
+		return -1;
+	}
+	fseek(fp,0,SEEK_END);
+	flen = ftell(fp);
+	fseek(fp,0,SEEK_SET);
+	str = (char *)malloc(1*flen);
+	fread(str,1,flen,fp);
+	printf("len = %d    %c\n",flen,str[0]);
+	fclose(fp);
+	
+	return 0;
+}
