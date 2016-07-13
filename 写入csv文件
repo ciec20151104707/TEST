@@ -1,0 +1,55 @@
+#include "stdafx.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string"
+using namespace std;
+
+
+
+int main()
+{
+	FILE * fp1;
+	FILE * fp2;
+	char * a;
+	char date[20];
+	char time[20];
+	char lat[20];
+	char lon[20];
+	int len = 0;
+		if ((fp1 = fopen("c:\\Users\\jszx\\Desktop\\export.gpx", "rb")) == 0)
+	{
+		printf("文件不能正常打开！！ ");
+		return(-1);
+	}
+	
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	a = (char *)malloc(len);
+	fseek(fp1, 0, SEEK_SET);
+	fread(a, 1, len, fp1);
+	char n[50];
+		int m = 0;
+		fp2 = fopen("c:\\Users\\jszx\\Desktop\\export.csv", "w");
+		fprintf(fp2, "日期,时间,经度,纬度\n");
+		while (!((*(a + m) == '<') && (*(a + m + 1) == '/') && (*(a + m + 2) == 'g') && (*(a + m + 3) == 'p') && (*(a + m + 4) == 'x') && (*(a + m + 5) == '>')))
+			
+		{
+			if (a[m] == ' '&&a[m + 1] == 'l'&&a[m + 2] == 'a'&&a[m+3]=='t')
+			{
+				strncpy(date, a + m + 45,10);
+				strncpy(time, a + m +56,8 );
+				strncpy(lat, a + m +6,9 );
+				strncpy(lon, a + m + 22,10 );
+				date[10] = '\0';
+				time[8] = '\0';
+				lat[9] = '\0';
+				lon[10] = '\0';
+				fprintf(fp2, "%s,%s,%s,%s\n", date, time, lat, lon);
+			}
+			m++;
+		}
+	free(a);
+	fclose(fp1);
+	fclose(fp2);
+    return 0;
+}
